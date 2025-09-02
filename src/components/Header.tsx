@@ -56,15 +56,13 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate, onCartToggle }
               onClick={() => onNavigate('home')}
               className="flex items-center space-x-2 text-2xl font-bold text-blue-900 hover:text-blue-700 transition-colors"
             >
-              <div className="bg-blue-900 text-white p-2 rounded-lg">
-                <ShoppingCart className="h-6 w-6" />
-              </div>
+               <img src='logo.png' width={70}/>
               <span>PrestaShop Academy</span>
             </button>
           </div>
 
           {/* Search bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+          {/* <div className="hidden md:flex flex-1 max-w-2xl mx-8">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
@@ -75,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate, onCartToggle }
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">

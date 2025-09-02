@@ -3,6 +3,8 @@ import { Search, ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
 import { useWishlist } from '../hooks/useWishlist';
+import logo from "../../assets/logo.png";
+
 
 interface HeaderProps {
   currentPage: string;
@@ -56,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate, onCartToggle }
               onClick={() => onNavigate('home')}
               className="flex items-center space-x-2 text-2xl font-bold text-blue-900 hover:text-blue-700 transition-colors"
             >
-               <img src='logo.png' width={70}/>
+               <img src={logo} width={70} />
               <span>PrestaShop Academy</span>
             </button>
           </div>

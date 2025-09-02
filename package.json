@@ -8,10 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "npm run build && cp dist/index.html dist/404.html",
+    "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://zolacdo.github.io/prestashop_academy",
   "dependencies": {
     "@types/node": "^24.3.0",
     "lucide-react": "^0.344.0",

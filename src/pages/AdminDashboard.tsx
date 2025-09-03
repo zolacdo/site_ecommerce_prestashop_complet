@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   BarChart3, Users, Package, ShoppingCart, DollarSign, 
   TrendingUp, Calendar, Settings, LogOut, Bell,
-  Plus, Edit, Trash2, Eye, Search, Filter
+  Plus, Edit, Trash2, Eye, Search, Filter,
+  Save
 } from 'lucide-react';
 import { useAdmin } from '../hooks/useAdmin';
 

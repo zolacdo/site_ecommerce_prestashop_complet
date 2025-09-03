@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Calendar, User, ArrowRight, Search, Tag } from 'lucide-react';
+import { BlogPost } from '../types/Blog';
+import { blogPosts } from '../data/blog';
 
 interface BlogProps {
   onNavigate: (page: string) => void;
+  onViewPost: (post: BlogPost) => void;
 }
 
-const Blog: React.FC<BlogProps> = ({ onNavigate }) => {
+const Blog: React.FC<BlogProps> = ({ onNavigate, onViewPost }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -17,70 +20,7 @@ const Blog: React.FC<BlogProps> = ({ onNavigate }) => {
     { id: 'updates', name: 'Mises à jour' }
   ];
 
-  const articles = [
-    {
-      id: 1,
-      title: 'Comment optimiser les performances de votre boutique PrestaShop',
-      excerpt: 'Découvrez les meilleures techniques pour améliorer la vitesse de chargement et l\'expérience utilisateur de votre boutique en ligne.',
-      image: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpg?auto=compress&cs=tinysrgb&w=800',
-      category: 'tips',
-      author: 'Alexandre Martin',
-      date: '15 Jan 2025',
-      readTime: '8 min'
-    },
-    {
-      id: 2,
-      title: 'PrestaShop 8.1 : Toutes les nouveautés à connaître',
-      excerpt: 'Explorez les nouvelles fonctionnalités et améliorations apportées par la dernière version de PrestaShop.',
-      image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800',
-      category: 'news',
-      author: 'Sophie Dubois',
-      date: '12 Jan 2025',
-      readTime: '6 min'
-    },
-    {
-      id: 3,
-      title: 'Tutoriel : Créer son premier module PrestaShop',
-      excerpt: 'Guide pas à pas pour développer votre premier module PrestaShop avec les bonnes pratiques.',
-      image: 'https://images.pexels.com/photos/1181472/pexels-photo-1181472.jpeg?auto=compress&cs=tinysrgb&w=800',
-      category: 'tutorials',
-      author: 'Thomas Laurent',
-      date: '10 Jan 2025',
-      readTime: '12 min'
-    },
-    {
-      id: 4,
-      title: '10 erreurs à éviter lors de la création d\'une boutique en ligne',
-      excerpt: 'Les pièges les plus courants et comment les éviter pour réussir votre projet e-commerce.',
-      image: 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800',
-      category: 'tips',
-      author: 'Marie Rousseau',
-      date: '08 Jan 2025',
-      readTime: '10 min'
-    },
-    {
-      id: 5,
-      title: 'Les tendances e-commerce 2025 à suivre absolument',
-      excerpt: 'Découvrez les tendances qui vont marquer l\'e-commerce cette année et comment vous y préparer.',
-      image: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800',
-      category: 'news',
-      author: 'Alexandre Martin',
-      date: '05 Jan 2025',
-      readTime: '7 min'
-    },
-    {
-      id: 6,
-      title: 'Mise à jour de sécurité PrestaShop : Ce qu\'il faut savoir',
-      excerpt: 'Informations importantes sur la dernière mise à jour de sécurité et comment l\'appliquer.',
-      image: 'https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=800',
-      category: 'updates',
-      author: 'Thomas Laurent',
-      date: '03 Jan 2025',
-      readTime: '5 min'
-    }
-  ];
-
-  const filteredArticles = articles.filter(article => {
+  const filteredArticles = blogPosts.filter(article => {
     const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
     const matchesSearch = searchQuery === '' || 
       article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -177,15 +117,18 @@ const Blog: React.FC<BlogProps> = ({ onNavigate }) => {
                     <div className="flex items-center space-x-4 text-sm text-gray-500">
                       <div className="flex items-center">
                         <User className="h-4 w-4 mr-1" />
-                        <span>{filteredArticles[0].author}</span>
+                        <span>{filteredArticles[0].author.name}</span>
                       </div>
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-1" />
-                        <span>{filteredArticles[0].date}</span>
+                        <span>{filteredArticles[0].publishedAt.toLocaleDateString('fr-FR')}</span>
                       </div>
                       <span>{filteredArticles[0].readTime} de lecture</span>
                     </div>
-                    <button className="text-blue-900 hover:text-blue-700 font-medium flex items-center">
+                    <button 
+                      onClick={() => onViewPost(filteredArticles[0])}
+                      className="text-blue-900 hover:text-blue-700 font-medium flex items-center"
+                    >
                       Lire l'article
                       <ArrowRight className="h-4 w-4 ml-1" />
                     </button>
@@ -224,17 +167,20 @@ const Blog: React.FC<BlogProps> = ({ onNavigate }) => {
                 <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                   <div className="flex items-center">
                     <User className="h-4 w-4 mr-1" />
-                    <span>{article.author}</span>
+                    <span>{article.author.name}</span>
                   </div>
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1" />
-                    <span>{article.date}</span>
+                    <span>{article.publishedAt.toLocaleDateString('fr-FR')}</span>
                   </div>
                 </div>
                 
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">{article.readTime} de lecture</span>
-                  <button className="text-blue-900 hover:text-blue-700 font-medium flex items-center group">
+                  <button 
+                    onClick={() => onViewPost(article)}
+                    className="text-blue-900 hover:text-blue-700 font-medium flex items-center group"
+                  >
                     Lire plus
                     <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </button>

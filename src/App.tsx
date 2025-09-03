@@ -147,7 +147,9 @@ function App() {
                   {renderCurrentPage()}
                 </main>
 
-                {!isAdminMode && <Footer />}
+                {!isAdminMode && (
+                  <Footer onNavigate={handleNavigate} />
+                )}
 
                 {!isAdminMode && (
                   <>

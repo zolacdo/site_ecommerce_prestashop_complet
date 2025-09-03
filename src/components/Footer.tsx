@@ -1,7 +1,21 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Youtube } from 'lucide-react';
+interface FooterProps {
+  onNavigate: (page: string) => void;
+}
 
-const Footer: React.FC = () => {
+const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const [email, setEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setIsSubscribed(true);
+      setEmail('');
+      setTimeout(() => setIsSubscribed(false), 3000);
+    }
+  };
+
   return (
     <footer className="bg-slate-900 text-white">
       {/* Main footer content */}
@@ -33,11 +47,11 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Liens Rapides</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Toutes les Formations</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Modules Premium</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Thèmes Responsive</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Documentation</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Blog & Actualités</a></li>
+              <li><button onClick={() => onNavigate('formations')} className="text-gray-300 hover:text-orange-400 transition-colors">Toutes les Formations</button></li>
+              <li><button onClick={() => onNavigate('modules')} className="text-gray-300 hover:text-orange-400 transition-colors">Modules Premium</button></li>
+              <li><button onClick={() => onNavigate('themes')} className="text-gray-300 hover:text-orange-400 transition-colors">Thèmes Responsive</button></li>
+              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">Documentation</button></li>
+              <li><button onClick={() => onNavigate('blog')} className="text-gray-300 hover:text-orange-400 transition-colors">Blog & Actualités</button></li>
             </ul>
           </div>
 
@@ -45,11 +59,11 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Support & Aide</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Centre d'Aide</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">FAQ</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Tutoriels Vidéo</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Contact Support</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">Communauté</a></li>
+              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">Centre d'Aide</button></li>
+              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">FAQ</button></li>
+              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">Tutoriels Vidéo</button></li>
+              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">Contact Support</button></li>
+              <li><button onClick={() => onNavigate('about')} className="text-gray-300 hover:text-orange-400 transition-colors">Communauté</button></li>
             </ul>
           </div>
 
@@ -74,16 +88,22 @@ const Footer: React.FC = () => {
             {/* Newsletter */}
             <div className="mt-6">
               <h5 className="font-medium mb-2">Newsletter</h5>
-              <div className="flex">
+              <form onSubmit={handleNewsletterSubmit} className="flex">
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Votre email"
+                  required
                   className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-white placeholder-gray-400"
                 />
-                <button className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-r-lg transition-colors">
+                <button type="submit" className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-r-lg transition-colors">
                   <Mail className="h-4 w-4" />
                 </button>
-              </div>
+              </form>
+              {isSubscribed && (
+                <p className="text-green-400 text-sm mt-2">✓ Inscription réussie !</p>
+              )}
             </div>
           </div>
         </div>
@@ -97,10 +117,10 @@ const Footer: React.FC = () => {
               © 2025 PrestaShop Academy. Tous droits réservés.
             </div>
             <div className="flex space-x-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors">Mentions Légales</a>
-              <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors">Conditions d'Utilisation</a>
-              <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors">Politique de Confidentialité</a>
-              <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors">CGV</a>
+              <button onClick={() => onNavigate('legal')} className="text-gray-400 hover:text-orange-400 transition-colors">Mentions Légales</button>
+              <button onClick={() => onNavigate('terms')} className="text-gray-400 hover:text-orange-400 transition-colors">Conditions d'Utilisation</button>
+              <button onClick={() => onNavigate('privacy')} className="text-gray-400 hover:text-orange-400 transition-colors">Politique de Confidentialité</button>
+              <button onClick={() => onNavigate('cgv')} className="text-gray-400 hover:text-orange-400 transition-colors">CGV</button>
             </div>
           </div>
         </div>

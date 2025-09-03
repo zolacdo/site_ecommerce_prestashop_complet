@@ -3,32 +3,37 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   content: string;
-  image: string;
-  category: string;
   author: {
-    id: string;
     name: string;
-    avatar?: string;
+    avatar: string;
     role: string;
   };
-  publishedAt: Date;
+  publishedAt: string;
   readTime: string;
+  category: string;
   tags: string[];
+  image: string;
   likes: number;
-  comments: Comment[];
+  views: number;
   isLiked?: boolean;
 }
 
 export interface Comment {
   id: string;
   author: {
-    id: string;
     name: string;
-    avatar?: string;
+    avatar: string;
   };
   content: string;
-  createdAt: Date;
+  createdAt: string;
   likes: number;
-  replies?: Comment[];
   isLiked?: boolean;
+  replies?: Comment[];
+}
+
+export interface BlogStats {
+  totalPosts: number;
+  totalViews: number;
+  totalLikes: number;
+  totalComments: number;
 }

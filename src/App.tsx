@@ -13,13 +13,13 @@ import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Support from './pages/Support';
 import Wishlist from './pages/Wishlist';
-// import Account from './pages/Account';
+import Account from './pages/Account';
 import Login from './pages/Login';
 import Checkout from './pages/Checkout';
 import About from './pages/About';
 import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
-// import EditProfile from './pages/EditProfile';
+import EditProfile from './pages/EditProfile';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import { Product } from './types/Product';
@@ -105,8 +105,8 @@ function App() {
         return <Support />;
       case 'wishlist':
         return <Wishlist onNavigate={handleNavigate} onViewProduct={handleViewProduct} />;
-      // case 'account':
-      //   return <Account onNavigate={handleNavigate} />;
+      case 'account':
+        return <Account onNavigate={handleNavigate} />;
       case 'login':
         return <Login onNavigate={handleNavigate} />;
       case 'checkout':
@@ -115,8 +115,8 @@ function App() {
         return <About onNavigate={handleNavigate} />;
       case 'blog':
         return <Blog onNavigate={handleNavigate} onViewPost={handleViewBlogPost} />;
-      // case 'edit-profile':
-      //   return <EditProfile onNavigate={handleNavigate} />;
+      case 'edit-profile':
+        return <EditProfile onNavigate={handleNavigate} />;
       case 'admin-login':
         return <AdminLogin onNavigate={handleNavigate} onAdminLogin={handleAdminLogin} />;
       case 'admin-dashboard':

@@ -43,7 +43,7 @@ const MiniChat: React.FC = () => {
 
   return (
     <div className={`fixed bottom-6 right-6 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 transition-all ${
-      isMinimized ? 'w-80 h-16' : 'w-80 h-96'
+      isMinimized ? 'w-80 h-16' : 'w-80 h-100'
     }`}>
       {/* Header */}
       <div className="bg-blue-900 text-white p-4 rounded-t-xl flex items-center justify-between">
@@ -115,14 +115,14 @@ const MiniChat: React.FC = () => {
           </div>
 
           {/* Input */}
-          <div className="border-t border-gray-200 p-4">
+          <div className="border-t border-gray-200 px-4">
             <form onSubmit={handleSendMessage} className="flex items-center space-x-2">
               <input
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Tapez votre message..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                className="flex-1 px-3 py-2 border border-none rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
               <button
                 type="submit"
@@ -132,16 +132,6 @@ const MiniChat: React.FC = () => {
                 <Send className="h-4 w-4" />
               </button>
             </form>
-            
-            {/* Quick actions */}
-            <div className="flex items-center justify-center space-x-4 mt-3">
-              <button className="text-xs text-gray-500 hover:text-blue-600 transition-colors">
-                Questions fréquentes
-              </button>
-              <button className="text-xs text-gray-500 hover:text-blue-600 transition-colors">
-                Demander un rappel
-              </button>
-            </div>
           </div>
         </>
       )}

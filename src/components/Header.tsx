@@ -97,12 +97,12 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate, onCartToggle }
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
             {/* Admin access */}
-            {/* <button 
+            <button 
               onClick={() => onNavigate('admin-login')}
               className="hidden md:block text-gray-700 hover:text-blue-900 transition-colors text-sm font-medium"
             >
               Admin
-            </button> */}
+            </button>
 
             {/* Wishlist */}
             <button 

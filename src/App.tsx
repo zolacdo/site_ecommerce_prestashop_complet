@@ -20,6 +20,7 @@ import About from './pages/About';
 import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import EditProfile from './pages/EditProfile';
+import PaymentCards from './pages/PaymentCards';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import { Product } from './types/Product';
@@ -117,6 +118,8 @@ function App() {
         return <Blog onNavigate={handleNavigate} onViewPost={handleViewBlogPost} />;
       case 'edit-profile':
         return <EditProfile onNavigate={handleNavigate} />;
+      case 'payment-cards':
+        return <PaymentCards onNavigate={handleNavigate} />;
       case 'admin-login':
         return <AdminLogin onNavigate={handleNavigate} onAdminLogin={handleAdminLogin} />;
       case 'admin-dashboard':

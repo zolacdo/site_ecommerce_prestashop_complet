@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User,  Package, Heart, CreditCard, MapPin, Bell, Shield, LogOut, Edit3 } from 'lucide-react';
+import { User,  Package, Heart, CreditCard, MapPin, Bell, Shield, LogOut, Edit3, Download, Calendar, Award, BarChart3, BookOpen, Clock } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 interface AccountProps {
@@ -14,6 +14,10 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
     { id: 'profile', label: 'Mon Profil', icon: User },
     { id: 'orders', label: 'Mes Commandes', icon: Package },
     { id: 'wishlist', label: 'Liste de Souhaits', icon: Heart },
+    { id: 'downloads', label: 'Mes téléchargements', icon: Download },
+    { id: 'schedule', label: 'Planning des cours', icon: Calendar },
+    { id: 'certificates', label: 'Certificats', icon: Award },
+    { id: 'stats', label: 'Mes statistiques', icon: BarChart3 },
     { id: 'addresses', label: 'Mes Adresses', icon: MapPin },
     { id: 'payment', label: 'Moyens de Paiement', icon: CreditCard },
     { id: 'notifications', label: 'Notifications', icon: Bell },
@@ -78,6 +82,64 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Enhanced Header */}
+        <div className="mb-8">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <User className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">{user.firstName} {user.lastName}</h1>
+                <p className="text-gray-600">Membre Premium depuis janvier 2024</p>
+                <div className="flex items-center mt-2 space-x-4 text-sm">
+                  <span className="flex items-center text-green-600">
+                    <Award className="w-4 h-4 mr-1" />
+                    5 certificats obtenus
+                  </span>
+                  <span className="flex items-center text-blue-600">
+                    <BookOpen className="w-4 h-4 mr-1" />
+                    12 formations complétées
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Formations Actives</h3>
+              <BookOpen className="w-5 h-5 text-blue-600" />
+            </div>
+            <p className="text-3xl font-bold text-blue-600 mb-2">3</p>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="bg-blue-600 h-2 rounded-full" style={{ width: '68%' }}></div>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">68% de progression moyenne</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Certificats</h3>
+              <Award className="w-5 h-5 text-green-600" />
+            </div>
+            <p className="text-3xl font-bold text-green-600 mb-2">5</p>
+            <p className="text-sm text-gray-500">Dernier obtenu: SEO Avancé</p>
+            <p className="text-xs text-gray-400 mt-1">Il y a 3 jours</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Temps d'étude</h3>
+              <Clock className="w-5 h-5 text-purple-600" />
+            </div>
+            <p className="text-3xl font-bold text-purple-600 mb-2">47h</p>
+            <p className="text-sm text-gray-500">Ce mois-ci (+12h vs mois dernier)</p>
+            <p className="text-xs text-green-600 mt-1">↗ +34% d'amélioration</p>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1">
@@ -248,6 +310,62 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
                 </div>
               )}
 
+              {/* Downloads Tab */}
+              {activeTab === 'downloads' && (
+                <div className="p-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Mes Téléchargements</h2>
+                  <div className="text-center py-12">
+                    <Download className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-600">Aucun téléchargement disponible</p>
+                    <button className="mt-4 bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                      Parcourir les Ressources
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Schedule Tab */}
+              {activeTab === 'schedule' && (
+                <div className="p-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Planning des Cours</h2>
+                  <div className="text-center py-12">
+                    <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-600">Aucun cours planifié</p>
+                    <button className="mt-4 bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                      Voir les Formations Disponibles
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Certificates Tab */}
+              {activeTab === 'certificates' && (
+                <div className="p-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Mes Certificats</h2>
+                  <div className="text-center py-12">
+                    <Award className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-600">Aucun certificat obtenu</p>
+                    <button className="mt-4 bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                      Commencer une Formation
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Stats Tab */}
+              {activeTab === 'stats' && (
+                <div className="p-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Mes Statistiques</h2>
+                  <div className="text-center py-12">
+                    <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-600">Statistiques en cours de développement</p>
+                    <button className="mt-4 bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                      Voir mes Progrès
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Other tabs with placeholder content */}
               {activeTab === 'addresses' && (
                 <div className="p-8">
@@ -321,6 +439,33 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Activité Récente</h3>
+          <div className="space-y-3">
+            {[
+              { action: 'Completion de formation', detail: 'PrestaShop Avancé - Module 3', time: '2 heures', type: 'success' },
+              { action: 'Nouveau certificat', detail: 'SEO & Référencement', time: '3 jours', type: 'achievement' },
+              { action: 'Paiement effectué', detail: 'Formation Marketing Digital - €89', time: '1 semaine', type: 'payment' },
+              { action: 'Profil mis à jour', detail: 'Photo de profil modifiée', time: '2 semaines', type: 'profile' }
+            ].map((activity, index) => (
+              <div key={index} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div className={`w-2 h-2 rounded-full ${
+                  activity.type === 'success' ? 'bg-green-500' :
+                  activity.type === 'achievement' ? 'bg-yellow-500' :
+                  activity.type === 'payment' ? 'bg-blue-500' :
+                  'bg-gray-500'
+                }`}></div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900">{activity.action}</p>
+                  <p className="text-xs text-gray-500">{activity.detail}</p>
+                </div>
+                <span className="text-xs text-gray-400">Il y a {activity.time}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

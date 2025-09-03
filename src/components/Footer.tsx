@@ -1,7 +1,8 @@
-import React from 'react';
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, MessageCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Facebook, Twitter, Instagram, Linkedin, Youtube, MessageCircle, Mail, Phone, MapPin, Shield, CheckCircle, Calendar } from 'lucide-react';
 import { footerSections, socialLinks, legalLinks } from '../data/footer';
-import { Link } from 'react-router-dom';
+
+interface FooterProps {
   onNavigate: (page: string) => void;
 }
 
@@ -31,58 +32,111 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     return IconComponent ? <IconComponent className="w-5 h-5" /> : null;
   };
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
-          {/* Brand Section */}
-          <div className="lg:col-span-1">
+  const handleFooterLinkClick = (href: string, external?: boolean) => {
+    if (external) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    } else {
+      // Convert href to page navigation
+      const pageMap: Record<string, string> = {
+        '/formations': 'formations',
+        '/formations/prestashop-debutant': 'formations',
+        '/formations/ecommerce-avance': 'formations',
+        '/formations/marketing-digital': 'formations',
+        '/formations/seo-referencement': 'formations',
+        '/modules': 'modules',
+        '/themes': 'themes',
+        '/documentation': 'support',
+        '/tutoriels': 'support',
+        '/templates': 'formations',
+        '/aide': 'support',
+        '/forum': 'support',
+        '/blog': 'blog',
+        '/evenements': 'about',
+        '/partenaires': 'about',
+        '/testimonials': 'about',
+        '/contact': 'support',
+        '/support': 'support',
+        '/faq': 'support',
+        '/bug-report': 'support',
+        '/about': 'about',
+        '/careers': 'about',
+        '/presse': 'about',
+        '/investors': 'about',
+        '/legal': 'about',
+        '/privacy': 'about',
+        '/terms': 'about',
+        '/cookies': 'about',
+        '/gdpr': 'about',
+        '/cgv': 'about'
+      };
+      
+      const page = pageMap[href] || 'home';
+      onNavigate(page);
+    }
+  };
+
+  return (
+    <footer className="bg-slate-900 text-white">
+      {/* Newsletter Section */}
+      <div className="bg-gradient-to-r from-blue-900 to-slate-800 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h3 className="text-2xl font-bold mb-4">Restez Connecté avec Nous</h3>
+          <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
+            Recevez nos dernières formations, actualités e-commerce et conseils d'experts directement dans votre boîte mail
+          </p>
+          
+          {isSubscribed ? (
+            <div className="bg-green-500/20 border border-green-400 rounded-lg p-4 max-w-md mx-auto">
+              <CheckCircle className="h-6 w-6 text-green-400 mx-auto mb-2" />
+              <p className="text-green-100">Merci ! Vous êtes maintenant abonné à notre newsletter.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto">
+              <div className="flex">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Votre adresse email"
+                  className="flex-1 px-4 py-3 rounded-l-lg text-gray-900 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="bg-orange-500 hover:bg-orange-600 px-6 py-3 rounded-r-lg font-semibold transition-colors"
+                >
+                  S'abonner
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company info */}
-          <div>
-            <h3 className="text-xl font-bold mb-4 text-orange-400">PrestaShop Academy</h3>
-            <p className="text-gray-300 mb-4 leading-relaxed">
-              Maîtrisez PrestaShop et développez votre e-commerce avec nos formations expertes.
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+          {/* Brand Section */}
+          <div className="lg:col-span-2">
+            <h3 className="text-2xl font-bold mb-4 text-orange-400">PrestaShop Academy</h3>
+            <p className="text-gray-300 mb-6 leading-relaxed">
+              La référence française pour maîtriser PrestaShop et développer votre e-commerce. 
+              Plus de 15 000 entrepreneurs nous font confiance.
             </p>
-            <div className="flex space-x-3">
+            <div className="flex space-x-3 mb-6">
               {socialLinks.map((social) => (
-                <a
+                <button
                   key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={() => handleFooterLinkClick(social.href, true)}
                   className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
                   title={social.name}
                 >
                   {getSocialIcon(social.icon)}
-                </a>
+                </button>
               ))}
-          {/* Quick links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Liens Rapides</h4>
-            <ul className="space-y-2">
-              <li><button onClick={() => onNavigate('formations')} className="text-gray-300 hover:text-orange-400 transition-colors">Toutes les Formations</button></li>
-              <li><button onClick={() => onNavigate('modules')} className="text-gray-300 hover:text-orange-400 transition-colors">Modules Premium</button></li>
-              <li><button onClick={() => onNavigate('themes')} className="text-gray-300 hover:text-orange-400 transition-colors">Thèmes Responsive</button></li>
-              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">Documentation</button></li>
-              <li><button onClick={() => onNavigate('blog')} className="text-gray-300 hover:text-orange-400 transition-colors">Blog & Actualités</button></li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Support & Aide</h4>
-            <ul className="space-y-2">
-              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">Centre d'Aide</button></li>
-              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">FAQ</button></li>
-              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">Tutoriels Vidéo</button></li>
-              <li><button onClick={() => onNavigate('support')} className="text-gray-300 hover:text-orange-400 transition-colors">Contact Support</button></li>
-              <li><button onClick={() => onNavigate('about')} className="text-gray-300 hover:text-orange-400 transition-colors">Communauté</button></li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Contact</h4>
+            </div>
+            
+            {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-orange-400 flex-shrink-0" />
@@ -93,73 +147,49 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <span className="text-gray-300">+33 1 23 45 67 89</span>
               </div>
               <div className="flex items-center space-x-3">
+                <Mail className="h-5 w-5 text-orange-400 flex-shrink-0" />
+                <span className="text-gray-300">contact@prestashop-academy.fr</span>
+              </div>
+            </div>
+          </div>
 
           {/* Dynamic Footer Sections */}
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
+              <h4 className="text-lg font-semibold mb-4 text-white">{section.title}</h4>
               <ul className="space-y-2 text-sm">
                 {section.links.map((link) => (
                   <li key={link.href}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-white transition-colors"
-                      >
-                        {link.title}
-                      </a>
-                    ) : (
-                      <Link
-                        to={link.href}
-                        className="text-gray-400 hover:text-white transition-colors"
-                      >
-                        {link.title}
-                      </Link>
-                    )}
+                    <button
+                      onClick={() => handleFooterLinkClick(link.href, link.external)}
+                      className="text-gray-400 hover:text-orange-400 transition-colors text-left"
+                    >
+                      {link.title}
+                    </button>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
-      {/* Bottom bar */}
-      <div className="border-t border-slate-800">
-        {/* Newsletter Subscription */}
-        <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="max-w-md mx-auto text-center">
-            <h3 className="text-lg font-semibold mb-2">Restez informé</h3>
-            <p className="text-gray-400 text-sm mb-4">
-              Recevez nos dernières formations et actualités e-commerce
-            </p>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Votre email"
-                className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
-              />
-              <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-r-lg transition-colors font-medium">
-                S'abonner
-              </button>
-            </div>
-          </div>
         </div>
+      </div>
 
-        {/* Bottom Section */}
+      {/* Bottom Section */}
+      <div className="border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
+            <div className="text-gray-400 text-sm">
               © 2025 PrestaShop Academy. Tous droits réservés.
             </div>
             <div className="flex flex-wrap justify-center lg:justify-end space-x-6 text-sm">
               {legalLinks.map((link) => (
-                <Link
+                <button
                   key={link.href}
-                  to={link.href}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  onClick={() => handleFooterLinkClick(link.href)}
+                  className="text-gray-400 hover:text-orange-400 transition-colors"
                 >
                   {link.title}
-                </Link>
+                </button>
               ))}
             </div>
           </div>
@@ -168,7 +198,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="flex justify-center items-center space-x-6 mt-6 pt-6 border-t border-gray-800">
             <div className="flex items-center space-x-2 text-gray-400 text-xs">
               <Shield className="w-4 h-4" />
-              <span>Paiements sécurisés</span>
+              <span>Paiements sécurisés SSL</span>
             </div>
             <div className="flex items-center space-x-2 text-gray-400 text-xs">
               <CheckCircle className="w-4 h-4" />
@@ -177,7 +207,6 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="flex items-center space-x-2 text-gray-400 text-xs">
               <Calendar className="w-4 h-4" />
               <span>Support 24/7</span>
-              <button onClick={() => onNavigate('cgv')} className="text-gray-400 hover:text-orange-400 transition-colors">CGV</button>
             </div>
           </div>
         </div>

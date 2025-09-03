@@ -12,10 +12,12 @@ export interface PaymentCard {
 
 export interface PaymentMethod {
   id: string;
-  type: 'card' | 'paypal' | 'bank_transfer';
+  type: 'card' | 'paypal' | 'bank_transfer' | 'crypto';
   name: string;
   details: string;
   isEnabled: boolean;
+  fees: number;
+  processingTime: string;
 }
 
 export interface Transaction {
@@ -27,6 +29,9 @@ export interface Transaction {
   date: string;
   paymentMethod: string;
   orderId?: string;
+  fees?: number;
+  refundAmount?: number;
+  refundReason?: string;
 }
 
 export interface BillingAddress {
@@ -40,4 +45,40 @@ export interface BillingAddress {
   zipCode: string;
   country: string;
   phone?: string;
+  taxId?: string;
+}
+
+export interface PaymentSettings {
+  autoPayEnabled: boolean;
+  defaultPaymentMethod: string;
+  receiptEmail: string;
+  invoiceLanguage: string;
+  taxExempt: boolean;
+}
+
+export interface Invoice {
+  id: string;
+  orderId: string;
+  amount: number;
+  currency: string;
+  issueDate: string;
+  dueDate: string;
+  status: 'draft' | 'sent' | 'paid' | 'overdue';
+  downloadUrl: string;
+}
+
+export interface PaymentAnalytics {
+  totalRevenue: number;
+  monthlyRevenue: number;
+  averageOrderValue: number;
+  conversionRate: number;
+  topPaymentMethods: Array<{
+    method: string;
+    percentage: number;
+    amount: number;
+  }>;
+  revenueByMonth: Array<{
+    month: string;
+    revenue: number;
+  }>;
 }

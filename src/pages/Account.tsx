@@ -383,12 +383,31 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
               {activeTab === 'payment' && (
                 <div className="p-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">Moyens de Paiement</h2>
-                  <div className="text-center py-12">
-                    <CreditCard className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-600">Aucun moyen de paiement enregistré</p>
-                    <button className="mt-4 bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors">
-                      Ajouter une Carte
-                    </button>
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                        <CreditCard className="h-8 w-8 text-blue-600 mb-4" />
+                        <h3 className="font-semibold text-gray-900 mb-2">Mes Cartes Bancaires</h3>
+                        <p className="text-gray-600 text-sm mb-4">Gérez vos cartes de paiement</p>
+                        <button 
+                          onClick={() => onNavigate('payment-cards')}
+                          className="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors"
+                        >
+                          Gérer les Cartes
+                        </button>
+                      </div>
+                      <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                        <Settings className="h-8 w-8 text-green-600 mb-4" />
+                        <h3 className="font-semibold text-gray-900 mb-2">Paramètres de Paiement</h3>
+                        <p className="text-gray-600 text-sm mb-4">Configurez vos préférences</p>
+                        <button 
+                          onClick={() => onNavigate('payment-settings')}
+                          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                        >
+                          Configurer
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}

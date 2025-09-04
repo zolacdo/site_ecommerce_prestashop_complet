@@ -1,21 +1,40 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Heart, Share2, MessageCircle, Send, ThumbsUp, Calendar, User, Tag, Eye } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Heart, Share2, MessageCircle, Send, ThumbsUp, Calendar, Eye, Tag } from 'lucide-react';
 import { BlogPost, Comment } from '../types/Blog';
+import { blogPosts } from '../data/blog';
 import { useAuth } from '../hooks/useAuth';
 
-interface BlogDetailProps {
-  post: BlogPost;
-  onBack: () => void;
-}
-
-const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
-  const [isLiked, setIsLiked] = useState(post.isLiked || false);
-  const [likes, setLikes] = useState(post.likes);
-  const [comments, setComments] = useState<Comment[]>(post.comments);
-  const [newComment, setNewComment] = useState('');
-  const [replyTo, setReplyTo] = useState<string | null>(null);
+const BlogDetail: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { user } = useAuth();
 
+  // Trouver le post correspondant
+  const post = blogPosts.find((p) => p.id === id);
+
+ 
+
+  const [isLiked, setIsLiked] = useState(post?.isLiked || false);
+  const [likes, setLikes] = useState(post?.likes);
+  const [comments, setComments] = useState<Comment[]>(post?.comments || []);
+  const [newComment, setNewComment] = useState('');
+ // Si le post n'existe pas, afficher un message
+  if (!post) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-white rounded-lg p-8 shadow-lg text-center">
+          <h2 className="text-2xl font-bold mb-4">Article introuvable</h2>
+          <button
+            onClick={() => navigate('/blog')}
+            className="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors"
+          >
+            Retour au blog
+          </button>
+        </div>
+      </div>
+    );
+  }
   const handleLike = () => {
     setIsLiked(!isLiked);
     setLikes(prev => isLiked ? prev - 1 : prev + 1);
@@ -30,7 +49,7 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
       author: {
         id: user.id,
         name: `${user.firstName} ${user.lastName}`,
-        avatar: user.avatar
+        avatar: user.avatar ?? ''
       },
       content: newComment,
       createdAt: new Date(),
@@ -70,7 +89,7 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
       <div className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
-            onClick={onBack}
+            onClick={() => navigate('/blog')}
             className="flex items-center text-gray-600 hover:text-blue-900 transition-colors mb-4"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
@@ -82,7 +101,6 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Article header */}
         <article className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-          {/* Featured image */}
           <div className="relative h-96 overflow-hidden">
             <img
               src={post.image}
@@ -98,7 +116,7 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
                 <div className="flex items-center space-x-4 text-sm">
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1" />
-                    <span>{post.publishedAt.toLocaleDateString('fr-FR')}</span>
+                    <span>{new Date(post.publishedAt).toLocaleDateString('fr-FR')}</span>
                   </div>
                   <div className="flex items-center">
                     <Eye className="h-4 w-4 mr-1" />
@@ -115,7 +133,7 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <img
-                  src={post.author.avatar || 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400'}
+                  src={post.author.avatar}
                   alt={post.author.name}
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -212,7 +230,10 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
           ) : (
             <div className="bg-gray-50 rounded-lg p-6 mb-8 text-center">
               <p className="text-gray-600 mb-4">Connectez-vous pour laisser un commentaire</p>
-              <button className="bg-blue-900 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-800 transition-colors">
+              <button
+                onClick={() => navigate('/login')}
+                className="bg-blue-900 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-800 transition-colors"
+              >
                 Se Connecter
               </button>
             </div>
@@ -232,7 +253,7 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
                     <div className="flex items-center space-x-2 mb-2">
                       <span className="font-semibold text-gray-900">{comment.author.name}</span>
                       <span className="text-sm text-gray-500">
-                        {comment.createdAt.toLocaleDateString('fr-FR')}
+                        {new Date(comment.createdAt).toLocaleDateString('fr-FR')}
                       </span>
                     </div>
                     <p className="text-gray-700 mb-3 leading-relaxed">{comment.content}</p>
@@ -253,38 +274,6 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, onBack }) => {
                       </button>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {comments.length === 0 && (
-            <div className="text-center py-8">
-              <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600">Aucun commentaire pour le moment</p>
-              <p className="text-gray-500 text-sm">Soyez le premier à commenter cet article !</p>
-            </div>
-          )}
-        </div>
-
-        {/* Related articles */}
-        <div className="mt-12">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Articles Similaires</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Mock related articles */}
-            {[1, 2].map((i) => (
-              <div key={i} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <img
-                  src={`https://images.pexels.com/photos/318406${i}/pexels-photo-318406${i}.jpeg?auto=compress&cs=tinysrgb&w=800`}
-                  alt="Article similaire"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h4 className="font-bold text-lg mb-2">Article similaire {i}</h4>
-                  <p className="text-gray-600 mb-4">Description de l'article similaire...</p>
-                  <button className="text-blue-900 hover:text-blue-700 font-medium">
-                    Lire l'article →
-                  </button>
                 </div>
               </div>
             ))}

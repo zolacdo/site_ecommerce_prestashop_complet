@@ -1,15 +1,13 @@
-import React from 'react';
-import { Heart, ShoppingCart, Trash2, ArrowLeft } from 'lucide-react';
-import { useWishlist } from '../hooks/useWishlist';
-import { useCart } from '../hooks/useCart';
-import ProductCard from '../components/ProductCard';
+import React from "react";
+import { Heart, ShoppingCart, Trash2, ArrowLeft } from "lucide-react";
+import { useWishlist } from "../hooks/useWishlist";
+import { useCart } from "../hooks/useCart";
+import ProductCard from "../components/ProductCard";
+import { useNavigate } from "react-router-dom";
+import { Product } from "../types/Product";
 
-interface WishlistProps {
-  onNavigate: (page: string) => void;
-  onViewProduct: (product: any) => void;
-}
-
-const Wishlist: React.FC<WishlistProps> = ({ onNavigate, onViewProduct }) => {
+const Wishlist: React.FC = () => {
+  const navigate = useNavigate();
   const { items, removeFromWishlist, clearWishlist } = useWishlist();
   const { addToCart } = useCart();
 
@@ -17,7 +15,9 @@ const Wishlist: React.FC<WishlistProps> = ({ onNavigate, onViewProduct }) => {
     addToCart(product);
     removeFromWishlist(product.id);
   };
-
+  const onViewProduct = (product: Product) => {
+    navigate(`/product/${product.id}`);
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -26,7 +26,7 @@ const Wishlist: React.FC<WishlistProps> = ({ onNavigate, onViewProduct }) => {
           <div className="flex items-center justify-between">
             <div>
               <button
-                onClick={() => onNavigate('home')}
+                onClick={() => navigate("/home")}
                 className="flex items-center text-gray-600 hover:text-blue-900 transition-colors mb-4"
               >
                 <ArrowLeft className="h-5 w-5 mr-2" />
@@ -36,9 +36,11 @@ const Wishlist: React.FC<WishlistProps> = ({ onNavigate, onViewProduct }) => {
                 <Heart className="h-8 w-8 text-red-500 mr-3" />
                 Ma Liste de Souhaits ({items.length})
               </h1>
-              <p className="text-gray-600 mt-2">Retrouvez tous vos produits favoris</p>
+              <p className="text-gray-600 mt-2">
+                Retrouvez tous vos produits favoris
+              </p>
             </div>
-            
+
             {items.length > 0 && (
               <button
                 onClick={clearWishlist}
@@ -57,12 +59,15 @@ const Wishlist: React.FC<WishlistProps> = ({ onNavigate, onViewProduct }) => {
           <div className="text-center py-16">
             <div className="bg-white rounded-xl shadow-lg p-12 max-w-md mx-auto">
               <Heart className="h-16 w-16 text-gray-300 mx-auto mb-6" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Votre liste est vide</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Votre liste est vide
+              </h2>
               <p className="text-gray-600 mb-8">
-                Ajoutez des produits à votre liste de souhaits pour les retrouver facilement
+                Ajoutez des produits à votre liste de souhaits pour les
+                retrouver facilement
               </p>
               <button
-                onClick={() => onNavigate('home')}
+                onClick={() => navigate("/home")}
                 className="bg-blue-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
               >
                 Découvrir nos Produits
@@ -75,12 +80,14 @@ const Wishlist: React.FC<WishlistProps> = ({ onNavigate, onViewProduct }) => {
             {/* Actions bar */}
             <div className="bg-white rounded-lg p-4 mb-8 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
               <div className="flex items-center space-x-4">
-                <span className="text-gray-700 font-medium">{items.length} produit(s) dans votre liste</span>
+                <span className="text-gray-700 font-medium">
+                  {items.length} produit(s) dans votre liste
+                </span>
               </div>
               <div className="flex space-x-3">
                 <button
                   onClick={() => {
-                    items.forEach(item => addToCart(item.product));
+                    items.forEach((item) => addToCart(item.product));
                     clearWishlist();
                   }}
                   className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
@@ -99,7 +106,7 @@ const Wishlist: React.FC<WishlistProps> = ({ onNavigate, onViewProduct }) => {
                     product={item.product}
                     onViewProduct={onViewProduct}
                   />
-                  
+
                   {/* Remove button */}
                   <button
                     onClick={() => removeFromWishlist(item.product.id)}

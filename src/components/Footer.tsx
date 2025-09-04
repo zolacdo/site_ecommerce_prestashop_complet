@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, MessageCircle, Mail, Phone, MapPin, Shield, CheckCircle, Calendar } from 'lucide-react';
-import { footerSections, socialLinks, legalLinks } from '../data/footer';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Youtube,
+  MessageCircle,
+  Mail,
+  Phone,
+  MapPin,
+  Shield,
+  CheckCircle,
+  Calendar,
+} from "lucide-react";
+import { footerSections, socialLinks, legalLinks } from "../data/footer";
 
-interface FooterProps {
-  onNavigate: (page: string) => void;
-}
-
-const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const [email, setEmail] = useState('');
+const Footer: React.FC = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
       setIsSubscribed(true);
-      setEmail('');
+      setEmail("");
       setTimeout(() => setIsSubscribed(false), 3000);
     }
   };
@@ -26,7 +37,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       instagram: Instagram,
       linkedin: Linkedin,
       youtube: Youtube,
-      discord: MessageCircle
+      discord: MessageCircle,
     };
     const IconComponent = icons[iconName as keyof typeof icons];
     return IconComponent ? <IconComponent className="w-5 h-5" /> : null;
@@ -34,44 +45,42 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
   const handleFooterLinkClick = (href: string, external?: boolean) => {
     if (external) {
-      window.open(href, '_blank', 'noopener,noreferrer');
+      window.open(href, "_blank", "noopener,noreferrer");
     } else {
-      // Convert href to page navigation
       const pageMap: Record<string, string> = {
-        '/formations': 'formations',
-        '/formations/prestashop-debutant': 'formations',
-        '/formations/ecommerce-avance': 'formations',
-        '/formations/marketing-digital': 'formations',
-        '/formations/seo-referencement': 'formations',
-        '/modules': 'modules',
-        '/themes': 'themes',
-        '/documentation': 'support',
-        '/tutoriels': 'support',
-        '/templates': 'formations',
-        '/aide': 'support',
-        '/forum': 'support',
-        '/blog': 'blog',
-        '/evenements': 'about',
-        '/partenaires': 'about',
-        '/testimonials': 'about',
-        '/contact': 'support',
-        '/support': 'support',
-        '/faq': 'support',
-        '/bug-report': 'support',
-        '/about': 'about',
-        '/careers': 'about',
-        '/presse': 'about',
-        '/investors': 'about',
-        '/legal': 'about',
-        '/privacy': 'about',
-        '/terms': 'about',
-        '/cookies': 'about',
-        '/gdpr': 'about',
-        '/cgv': 'about'
+        "/formations": "formations",
+        "/formations/prestashop-debutant": "formations",
+        "/formations/ecommerce-avance": "formations",
+        "/formations/marketing-digital": "formations",
+        "/formations/seo-referencement": "formations",
+        "/modules": "modules",
+        "/themes": "themes",
+        "/documentation": "support",
+        "/tutoriels": "support",
+        "/templates": "formations",
+        "/aide": "support",
+        "/forum": "support",
+        "/blog": "blog",
+        "/evenements": "about",
+        "/partenaires": "about",
+        "/testimonials": "about",
+        "/contact": "support",
+        "/support": "support",
+        "/faq": "support",
+        "/bug-report": "support",
+        "/about": "about",
+        "/careers": "about",
+        "/presse": "about",
+        "/investors": "about",
+        "/legal": "about",
+        "/privacy": "about",
+        "/terms": "about",
+        "/cookies": "about",
+        "/gdpr": "about",
+        "/cgv": "about",
       };
-      
-      const page = pageMap[href] || 'home';
-      onNavigate(page);
+      const page = pageMap[href] || "home";
+      navigate(`/${page}`);
     }
   };
 
@@ -82,16 +91,22 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h3 className="text-2xl font-bold mb-4">Restez Connecté avec Nous</h3>
           <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            Recevez nos dernières formations, actualités e-commerce et conseils d'experts directement dans votre boîte mail
+            Recevez nos dernières formations, actualités e-commerce et conseils
+            d'experts directement dans votre boîte mail
           </p>
-          
+
           {isSubscribed ? (
             <div className="bg-green-500/20 border border-green-400 rounded-lg p-4 max-w-md mx-auto">
               <CheckCircle className="h-6 w-6 text-green-400 mx-auto mb-2" />
-              <p className="text-green-100">Merci ! Vous êtes maintenant abonné à notre newsletter.</p>
+              <p className="text-green-100">
+                Merci ! Vous êtes maintenant abonné à notre newsletter.
+              </p>
             </div>
           ) : (
-            <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto">
+            <form
+              onSubmit={handleNewsletterSubmit}
+              className="max-w-md mx-auto"
+            >
               <div className="flex">
                 <input
                   type="email"
@@ -118,10 +133,13 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold mb-4 text-orange-400">PrestaShop Academy</h3>
+            <h3 className="text-2xl font-bold mb-4 text-orange-400">
+              PrestaShop Academy
+            </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              La référence française pour maîtriser PrestaShop et développer votre e-commerce. 
-              Plus de 15 000 entrepreneurs nous font confiance.
+              La référence française pour maîtriser PrestaShop et développer
+              votre e-commerce. Plus de 15 000 entrepreneurs nous font
+              confiance.
             </p>
             <div className="flex space-x-3 mb-6">
               {socialLinks.map((social) => (
@@ -135,7 +153,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </button>
               ))}
             </div>
-            
+
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
@@ -148,7 +166,9 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-orange-400 flex-shrink-0" />
-                <span className="text-gray-300">contact@prestashop-academy.fr</span>
+                <span className="text-gray-300">
+                  contact@prestashop-academy.fr
+                </span>
               </div>
             </div>
           </div>
@@ -156,12 +176,16 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Dynamic Footer Sections */}
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h4 className="text-lg font-semibold mb-4 text-white">{section.title}</h4>
+              <h4 className="text-lg font-semibold mb-4 text-white">
+                {section.title}
+              </h4>
               <ul className="space-y-2 text-sm">
-                {section.links.map((link) => (
-                  <li key={link.href}>
+                {section.links.map((link, index) => (
+                  <li key={`${link.href}-${index}`}>
                     <button
-                      onClick={() => handleFooterLinkClick(link.href, link.external)}
+                      onClick={() =>
+                        handleFooterLinkClick(link.href, link.external)
+                      }
                       className="text-gray-400 hover:text-orange-400 transition-colors text-left"
                     >
                       {link.title}
@@ -193,7 +217,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               ))}
             </div>
           </div>
-          
+
           {/* Trust Badges */}
           <div className="flex justify-center items-center space-x-6 mt-6 pt-6 border-t border-gray-800">
             <div className="flex items-center space-x-2 text-gray-400 text-xs">

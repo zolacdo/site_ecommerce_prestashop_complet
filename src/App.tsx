@@ -28,6 +28,7 @@ import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 
 const App: React.FC = () => {
+  
   return (
     <AuthProvider>
       <CartProvider>
@@ -40,6 +41,7 @@ const App: React.FC = () => {
                   <main className="flex-1">
                     <Routes>
                       <Route path="/" element={<Home />} />
+                      <Route path="/home" element={<Home />} />
                       <Route path="/products" element={<Products />} />
                       <Route path="/products/:id" element={<ProductDetail />} />
                       <Route path="/blog" element={<Blog />} />

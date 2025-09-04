@@ -25,7 +25,7 @@ export interface Comment {
     avatar: string;
   };
   content: string;
-  createdAt: string;
+  createdAt: Date;
   likes: number;
   isLiked?: boolean;
   replies?: Comment[];

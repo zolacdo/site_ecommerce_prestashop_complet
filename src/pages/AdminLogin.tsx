@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Shield, Lock, Mail, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useAdmin } from '../hooks/useAdmin';
+import { useNavigate } from 'react-router-dom';
 
-interface AdminLoginProps {
-  onNavigate: (page: string) => void;
-  onAdminLogin: () => void;
-}
 
-const AdminLogin: React.FC<AdminLoginProps> = ({ onNavigate, onAdminLogin }) => {
+
+const AdminLogin: React.FC= () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +19,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onNavigate, onAdminLogin }) => 
 
     const success = await loginAdmin(email, password);
     if (success) {
-      onAdminLogin();
+      navigate('/admin');
     } else {
       setError('Identifiants incorrects');
     }
@@ -30,7 +29,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onNavigate, onAdminLogin }) => 
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         <button
-          onClick={() => onNavigate('home')}
+          onClick={() => navigate('/home')}
           className="flex items-center text-white/70 hover:text-white transition-colors mb-8"
         >
           <ArrowLeft className="h-5 w-5 mr-2" />

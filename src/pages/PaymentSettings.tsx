@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  CreditCard, Settings, Bell, Globe, Shield, Download, 
+import {  Settings, Bell,Download, 
   FileText, BarChart3, TrendingUp, DollarSign, Percent,
-  ArrowLeft, Save, AlertCircle, CheckCircle, Eye, EyeOff
+  ArrowLeft, Save
 } from 'lucide-react';
 import { PaymentSettings, PaymentAnalytics, Invoice } from '../types/Payment';
+import { useNavigate } from 'react-router-dom';
 
-interface PaymentSettingsProps {
-  onNavigate: (page: string) => void;
-}
 
-const PaymentSettingsPage: React.FC<PaymentSettingsProps> = ({ onNavigate }) => {
+
+const PaymentSettingsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('settings');
   const [settings, setSettings] = useState<PaymentSettings>({
     autoPayEnabled: true,
@@ -102,7 +101,7 @@ const PaymentSettingsPage: React.FC<PaymentSettingsProps> = ({ onNavigate }) => 
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
-            onClick={() => onNavigate('payment-cards')}
+            onClick={() => navigate('/account/payment-cards')}
             className="flex items-center text-gray-600 hover:text-blue-900 transition-colors mb-4"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
@@ -259,7 +258,7 @@ const PaymentSettingsPage: React.FC<PaymentSettingsProps> = ({ onNavigate }) => 
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Actions Rapides</h3>
                 <div className="space-y-2">
                   <button 
-                    onClick={() => onNavigate('payment-cards')}
+                    onClick={() => navigate('/account/payment-cards')}
                     className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                   >
                     Gérer mes cartes

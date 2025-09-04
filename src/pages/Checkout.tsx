@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { ArrowLeft, CreditCard, MapPin, Package, Shield, Check } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
-interface CheckoutProps {
-  onNavigate: (page: string) => void;
-}
 
-const Checkout: React.FC<CheckoutProps> = ({ onNavigate }) => {
+
+const Checkout: React.FC= () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState('card');
   const { items, getTotalPrice, clearCart } = useCart();
@@ -63,7 +63,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onNavigate }) => {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Panier Vide</h2>
           <p className="text-gray-600 mb-6">Votre panier est vide. Ajoutez des produits pour continuer.</p>
           <button
-            onClick={() => onNavigate('home')}
+            onClick={() => navigate('/home')}
             className="bg-blue-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
           >
             Continuer mes Achats
@@ -79,7 +79,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onNavigate }) => {
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
-            onClick={() => onNavigate('home')}
+            onClick={() => navigate('/home')}
             className="flex items-center text-gray-600 hover:text-blue-900 transition-colors mb-4"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
@@ -371,13 +371,13 @@ const Checkout: React.FC<CheckoutProps> = ({ onNavigate }) => {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
-                    onClick={() => onNavigate('account')}
+                    onClick={() => navigate('/account')}
                     className="bg-blue-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
                   >
                     Voir mes Commandes
                   </button>
                   <button
-                    onClick={() => onNavigate('home')}
+                    onClick={() => navigate('/home')}
                     className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
                   >
                     Continuer mes Achats

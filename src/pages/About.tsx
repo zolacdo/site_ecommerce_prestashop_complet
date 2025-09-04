@@ -1,11 +1,10 @@
 import React from 'react';
 import { Users, Award, Target, Heart, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-interface AboutProps {
-  onNavigate: (page: string) => void;
-}
 
-const About: React.FC<AboutProps> = ({ onNavigate }) => {
+const About: React.FC = () => {
+  const navigate = useNavigate();
   const team = [
     {
       name: 'Alexandre Martin',
@@ -188,7 +187,7 @@ const About: React.FC<AboutProps> = ({ onNavigate }) => {
             Faites partie des milliers d'entrepreneurs qui ont transformé leur business avec nos solutions
           </p>
           <button
-            onClick={() => onNavigate('formations')}
+            onClick={() => navigate('/formations')}
             className="bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center space-x-2"
           >
             <span>Commencer Maintenant</span>

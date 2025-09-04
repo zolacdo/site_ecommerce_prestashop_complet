@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft, User, UserPlus } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
-interface LoginProps {
-  onNavigate: (page: string) => void;
-}
 
-const Login: React.FC<LoginProps> = ({ onNavigate }) => {
+
+const Login: React.FC= () => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -52,7 +52,7 @@ const Login: React.FC<LoginProps> = ({ onNavigate }) => {
       }
 
       if (success) {
-        onNavigate('account');
+        navigate('/account');
       } else {
         setErrors({ general: 'Erreur de connexion. Vérifiez vos identifiants.' });
       }
@@ -67,7 +67,7 @@ const Login: React.FC<LoginProps> = ({ onNavigate }) => {
       <div className="max-w-md w-full">
         {/* Back button */}
         <button
-          onClick={() => onNavigate('home')}
+          onClick={() => navigate('/home')}
           className="flex items-center text-gray-600 hover:text-blue-900 transition-colors mb-8"
         >
           <ArrowLeft className="h-5 w-5 mr-2" />

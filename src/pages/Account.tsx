@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { User,  Package, Heart, CreditCard, MapPin, Bell, Shield, LogOut, Edit3, Download, Calendar, Award, BarChart3, BookOpen, Clock } from 'lucide-react';
+import { User,  Package, Heart, CreditCard, MapPin, Bell, Shield, LogOut, Edit3, Download, Calendar, Award, BarChart3, BookOpen, Clock, Settings } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
-interface AccountProps {
-  onNavigate: (page: string) => void;
-}
 
-const Account: React.FC<AccountProps> = ({ onNavigate }) => {
+
+const Account: React.FC= () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
   const { user, logout } = useAuth();
 
@@ -69,7 +69,7 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Connexion Requise</h2>
           <p className="text-gray-600 mb-6">Vous devez être connecté pour accéder à votre compte</p>
           <button
-            onClick={() => onNavigate('login')}
+            onClick={() => navigate('/login')}
             className="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
           >
             Se Connecter
@@ -198,7 +198,7 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-bold text-gray-900">Mon Profil</h2>
                     <button 
-                      onClick={() => onNavigate('edit-profile')}
+                      onClick={() => navigate('/edit-profile')}
                       className="flex items-center space-x-2 text-blue-900 hover:text-blue-700 transition-colors"
                     >
                       <Edit3 className="h-4 w-4" />
@@ -302,7 +302,7 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
                 <div className="p-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">Ma Liste de Souhaits</h2>
                   <button
-                    onClick={() => onNavigate('wishlist')}
+                    onClick={() => navigate('/wishlist')}
                     className="bg-blue-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
                   >
                     Voir ma Liste Complète
@@ -390,7 +390,7 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
                         <h3 className="font-semibold text-gray-900 mb-2">Mes Cartes Bancaires</h3>
                         <p className="text-gray-600 text-sm mb-4">Gérez vos cartes de paiement</p>
                         <button 
-                          onClick={() => onNavigate('payment-cards')}
+                          onClick={() => navigate('/account/payment-cards')}
                           className="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors"
                         >
                           Gérer les Cartes
@@ -401,7 +401,7 @@ const Account: React.FC<AccountProps> = ({ onNavigate }) => {
                         <h3 className="font-semibold text-gray-900 mb-2">Paramètres de Paiement</h3>
                         <p className="text-gray-600 text-sm mb-4">Configurez vos préférences</p>
                         <button 
-                          onClick={() => onNavigate('payment-settings')}
+                          onClick={() => navigate('/account/payment-settings')}
                           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
                         >
                           Configurer

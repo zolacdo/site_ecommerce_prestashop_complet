@@ -1,15 +1,17 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/products';
 import { Product } from '../types/Product';
 import { Filter, Grid, List } from 'lucide-react';
 
-interface ProductsProps {
-  category?: 'formation' | 'module' | 'theme';
-  onViewProduct: (product: Product) => void;
-}
+const Products: React.FC = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-const Products: React.FC<ProductsProps> = ({ category, onViewProduct }) => {
+  // Récupération de la catégorie depuis l'URL (ex: /products?category=module)
+  const category = searchParams.get('category') as 'formation' | 'module' | 'theme' | null;
+
   const [sortBy, setSortBy] = useState<'name' | 'price' | 'rating'>('rating');
   const [filterBy, setFilterBy] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -19,7 +21,7 @@ const Products: React.FC<ProductsProps> = ({ category, onViewProduct }) => {
       ? products.filter(product => product.category === category)
       : products;
 
-    // Apply additional filters
+    // Filtres supplémentaires
     if (filterBy !== 'all') {
       filtered = filtered.filter(product => {
         switch (filterBy) {
@@ -35,7 +37,7 @@ const Products: React.FC<ProductsProps> = ({ category, onViewProduct }) => {
       });
     }
 
-    // Sort products
+    // Tri
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'name':
@@ -70,6 +72,10 @@ const Products: React.FC<ProductsProps> = ({ category, onViewProduct }) => {
     }
   };
 
+  const handleViewProduct = (product: Product) => {
+    navigate(`/products/${product.id}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -82,7 +88,7 @@ const Products: React.FC<ProductsProps> = ({ category, onViewProduct }) => {
         </div>
       </div>
 
-      {/* Filters and sorting */}
+      {/* Filtres & tri */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0 bg-white rounded-lg p-4 shadow-sm">
           <div className="flex items-center space-x-4">
@@ -130,7 +136,7 @@ const Products: React.FC<ProductsProps> = ({ category, onViewProduct }) => {
         </div>
       </div>
 
-      {/* Products grid */}
+      {/* Produits */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         {filteredProducts.length === 0 ? (
           <div className="text-center py-12">
@@ -149,7 +155,7 @@ const Products: React.FC<ProductsProps> = ({ category, onViewProduct }) => {
               <ProductCard
                 key={product.id}
                 product={product}
-                onViewProduct={onViewProduct}
+                onViewProduct={handleViewProduct}
               />
             ))}
           </div>

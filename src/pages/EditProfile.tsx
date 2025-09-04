@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Save, Upload, Eye, EyeOff, Shield, Bell, CreditCard } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
-interface EditProfileProps {
-  onNavigate: (page: string) => void;
-}
 
-const EditProfile: React.FC<EditProfileProps> = ({ onNavigate }) => {
+const EditProfile: React.FC = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [activeSection, setActiveSection] = useState<'personal' | 'security' | 'notifications' | 'billing'>('personal');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -110,7 +109,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ onNavigate }) => {
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
-            onClick={() => onNavigate('account')}
+            onClick={() => navigate('/account')}
             className="flex items-center text-gray-600 hover:text-blue-900 transition-colors mb-4"
             aria-label="Retour au compte"
           >

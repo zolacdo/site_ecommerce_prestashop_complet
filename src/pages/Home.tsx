@@ -1,22 +1,25 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/products';
 import { Product } from '../types/Product';
 import { Star, Shield, Headphones, Award, ArrowRight } from 'lucide-react';
 
-interface HomeProps {
-  onNavigate: (page: string) => void;
-  onViewProduct: (product: Product) => void;
-}
-
-const Home: React.FC<HomeProps> = ({ onNavigate, onViewProduct }) => {
+const Home: React.FC = () => {
+  const navigate = useNavigate();
   const featuredProducts = products.slice(0, 6);
 
+  const handleViewProduct = (product: Product) => {
+    navigate(`/products/${product.id}`);
+  };
+    const handleNavigate = (page: string) => {
+    navigate(`/${page}`);
+  };
   return (
     <div>
       {/* Hero Section */}
-      <Hero onNavigate={onNavigate} />
+      <Hero onNavigate={handleNavigate} />
 
       {/* Featured Products */}
       <section className="py-16 bg-gray-50">
@@ -33,14 +36,14 @@ const Home: React.FC<HomeProps> = ({ onNavigate, onViewProduct }) => {
               <ProductCard
                 key={product.id}
                 product={product}
-                onViewProduct={onViewProduct}
+                onViewProduct={() => handleViewProduct(product)}
               />
             ))}
           </div>
 
           <div className="text-center">
             <button
-              onClick={() => onNavigate('formations')}
+              onClick={() => navigate('/products')}
               className="bg-blue-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors inline-flex items-center space-x-2"
             >
               <span>Voir Tous les Produits</span>
@@ -175,13 +178,13 @@ const Home: React.FC<HomeProps> = ({ onNavigate, onViewProduct }) => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={() => onNavigate('formations')}
+              onClick={() => navigate('/products?category=formations')}
               className="bg-white text-orange-500 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
             >
               Commencer une Formation
             </button>
             <button
-              onClick={() => onNavigate('modules')}
+              onClick={() => navigate('/products?category=modules')}
               className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
             >
               Explorer les Modules

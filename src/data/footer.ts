@@ -13,67 +13,101 @@ export const footerSections: FooterSection[] = [
   {
     title: "Formations",
     links: [
-      { title: "PrestaShop Débutant", href: "/formations/prestashop-debutant" },
-      { title: "E-commerce Avancé", href: "/formations/ecommerce-avance" },
-      { title: "Marketing Digital", href: "/formations/marketing-digital" },
-      { title: "SEO & Référencement", href: "/formations/seo-referencement" },
-      { title: "Toutes les formations", href: "/formations" }
+      { title: "PrestaShop Débutant", href: "/products" },
+      { title: "PrestaShop Avancé", href: "/products" },
+      { title: "Développement Modules", href: "/products" },
+      { title: "Thèmes & Design", href: "/products" },
+      { title: "SEO & Marketing", href: "/products" },
+      { title: "Toutes les formations", href: "/products" }
     ]
   },
   {
     title: "Ressources",
     links: [
-      { title: "Documentation", href: "/documentation" },
-      { title: "Tutoriels Vidéo", href: "/tutoriels" },
-      { title: "Templates Gratuits", href: "/templates" },
-      { title: "Modules Premium", href: "/modules" },
-      { title: "Centre d'aide", href: "/aide" }
-    ]
-  },
-  {
-    title: "Communauté",
-    links: [
-      { title: "Forum", href: "/forum" },
       { title: "Blog", href: "/blog" },
-      { title: "Événements", href: "/evenements" },
-      { title: "Partenaires", href: "/partenaires" },
-      { title: "Témoignages", href: "/testimonials" }
+      { title: "Documentation", href: "/support" },
+      { title: "Tutoriels vidéo", href: "/blog" },
+      { title: "FAQ", href: "/support" },
+      { title: "Forum communauté", href: "/support" },
+      { title: "Téléchargements", href: "/products" }
     ]
   },
   {
     title: "Support",
     links: [
-      { title: "Contactez-nous", href: "/contact" },
-      { title: "Support Technique", href: "/support" },
-      { title: "FAQ", href: "/faq" },
-      { title: "Status Système", href: "https://status.prestashop-academy.fr", external: true },
-      { title: "Signaler un Bug", href: "/bug-report" }
+      { title: "Centre d'aide", href: "/support" },
+      { title: "Contact", href: "/support" },
+      { title: "Chat en direct", href: "/support" },
+      { title: "Signaler un bug", href: "/support" },
+      { title: "Demande de fonctionnalité", href: "/support" },
+      { title: "Status des services", href: "/support" }
     ]
   },
   {
     title: "Entreprise",
     links: [
       { title: "À propos", href: "/about" },
-      { title: "Carrières", href: "/careers" },
-      { title: "Presse", href: "/presse" },
-      { title: "Investisseurs", href: "/investors" },
-      { title: "Mentions légales", href: "/legal" }
+      { title: "Notre équipe", href: "/about" },
+      { title: "Carrières", href: "/about" },
+      { title: "Partenaires", href: "/about" },
+      { title: "Presse", href: "/about" },
+      { title: "Investisseurs", href: "/about" }
     ]
   }
 ];
 
-export const socialLinks = [
-  { name: "Facebook", href: "https://facebook.com/prestashopacademy", icon: "facebook" },
-  { name: "Twitter", href: "https://twitter.com/prestashopacad", icon: "twitter" },
-  { name: "LinkedIn", href: "https://linkedin.com/company/prestashop-academy", icon: "linkedin" },
-  { name: "YouTube", href: "https://youtube.com/prestashopacademy", icon: "youtube" },
-  { name: "Instagram", href: "https://instagram.com/prestashopacademy", icon: "instagram" },
-  { name: "Discord", href: "https://discord.gg/prestashopacademy", icon: "discord" }
+export const legalLinks: FooterLink[] = [
+  { title: "Conditions d'utilisation", href: "/legal/terms" },
+  { title: "Politique de confidentialité", href: "/legal/privacy" },
+  { title: "Politique de cookies", href: "/legal/cookies" },
+  { title: "Mentions légales", href: "/legal/mentions" },
+  { title: "RGPD", href: "/legal/gdpr" }
 ];
 
-export const legalLinks = [
-  { title: "Politique de confidentialité", href: "/privacy" },
-  { title: "Conditions d'utilisation", href: "/terms" },
-  { title: "Politique de cookies", href: "/cookies" },
-  { title: "RGPD", href: "/gdpr" }
+export const socialLinks = [
+  { 
+    name: "Facebook", 
+    href: "https://facebook.com/prestashop", 
+    icon: "Facebook",
+    color: "hover:text-blue-600"
+  },
+  { 
+    name: "Twitter", 
+    href: "https://twitter.com/prestashop", 
+    icon: "Twitter",
+    color: "hover:text-blue-400"
+  },
+  { 
+    name: "LinkedIn", 
+    href: "https://linkedin.com/company/prestashop", 
+    icon: "Linkedin",
+    color: "hover:text-blue-700"
+  },
+  { 
+    name: "YouTube", 
+    href: "https://youtube.com/prestashop", 
+    icon: "Youtube",
+    color: "hover:text-red-600"
+  },
+  { 
+    name: "GitHub", 
+    href: "https://github.com/prestashop", 
+    icon: "Github",
+    color: "hover:text-gray-900"
+  },
+  { 
+    name: "Discord", 
+    href: "https://discord.gg/prestashop", 
+    icon: "MessageCircle",
+    color: "hover:text-indigo-600"
+  }
 ];
+
+export const companyInfo = {
+  name: "PrestaShop Academy",
+  description: "La plateforme de formation e-commerce de référence pour maîtriser PrestaShop et développer votre business en ligne.",
+  address: "123 Rue du Commerce, 75001 Paris, France",
+  phone: "+33 1 23 45 67 89",
+  email: "contact@prestashop-academy.fr",
+  copyright: "© 2025 PrestaShop Academy. Tous droits réservés."
+};

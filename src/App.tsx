@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MessageCircle, X, Send, Minimize2, Maximize2, Phone, Video } from 'lucide-react';
-import { useChat } from '../hooks/useChat';
+import { useChat } from './hooks/useChat';
 
 const MiniChat: React.FC = () => {
   const [isMinimized, setIsMinimized] = useState(false);

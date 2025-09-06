@@ -265,7 +265,6 @@ const Support: React.FC = () => {
           </div>
         </div>
       </div>
-      <div id="container-0b13439c61093f4632ebb4e452a84d80"></div>
     </div>
   );
 };

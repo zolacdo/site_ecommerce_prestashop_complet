@@ -210,7 +210,7 @@ const Account: React.FC= () => {
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-bold text-gray-900">Mon Profil</h2>
                     <button 
-                      onClick={() => navigate('/edit-profile')}
+                      onClick={() => navigate('/account/edit')}
                       className="flex items-center space-x-2 text-blue-900 hover:text-blue-700 transition-colors"
                     >
                       <Edit3 className="h-4 w-4" />

@@ -21,9 +21,9 @@ const Header: React.FC = () => {
 
   const navigation = [
     { name: 'Accueil', path: '/' },
-    { name: 'Formations', path: '/products?category=formations' },
-    { name: 'Modules', path: '/products?category=modules' },
-    { name: 'Thèmes', path: '/products?category=themes' },
+    { name: 'Formations', path: '/products?category=formation' },
+    { name: 'Modules', path: '/products?category=module' },
+    { name: 'Thèmes', path: '/products?category=theme' },
     { name: 'Blog', path: '/blog' },
     { name: 'À Propos', path: '/about' },
     // { name: 'Support', path: '/support' }

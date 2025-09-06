@@ -39,14 +39,14 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
             <div className="flex flex-col sm:flex-row gap-4 mb-10">
               <button
-                onClick={() => onNavigate('formations')}
+                onClick={() => onNavigate('products?category=formation')}
                 className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold flex items-center justify-center group transition-all transform hover:scale-105"
               >
                 Découvrir les Formations
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <button
-                onClick={() => onNavigate('modules')}
+                onClick={() => onNavigate('products?category=module')}
                 className="border-2 border-white/20 text-white hover:bg-white/10 px-8 py-4 rounded-lg font-semibold transition-all"
               >
                 Voir les Modules

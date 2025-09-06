@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft, User, UserPlus } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,12 @@ const Login: React.FC= () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   
-  const { login, register, isLoading } = useAuth();
+  // Rediriger si déjà connecté
+  useEffect(() => {
+    if (user) {
+      navigate('/account');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,13 +59,22 @@ const Login: React.FC= () => {
       if (success) {
         navigate('/account');
       } else {
-        setErrors({ general: 'Erreur de connexion. Vérifiez vos identifiants.' });
+        setErrors({ 
+          general: isLogin 
+            ? 'Email ou mot de passe incorrect.' 
+            : 'Erreur lors de la création du compte. Vérifiez vos informations.' 
+        });
       }
     } catch (error) {
       console.log(error);
       setErrors({ general: 'Une erreur est survenue. Veuillez réessayer.' });
     }
   };
+
+  // Afficher un loader pendant l'initialisation
+  if (isLoading) {
+    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">Chargement...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

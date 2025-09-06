@@ -1,4 +1,14 @@
-import { useState, useContext, createContext, ReactNode } from 'react';
+import { useState, useContext, createContext, ReactNode, useEffect } from 'react';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged,
+  updateProfile,
+  User as FirebaseUser
+} from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../config/firebase';
 import { User } from '../types/User';
 
 interface AuthContextType {
@@ -14,26 +24,42 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        // Récupérer les données utilisateur depuis Firestore
+        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUser({
+            id: firebaseUser.uid,
+            email: firebaseUser.email!,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            phone: userData.phone,
+            avatar: firebaseUser.photoURL,
+            createdAt: userData.createdAt?.toDate() || new Date(),
+            isVerified: firebaseUser.emailVerified
+          });
+        }
+      } else {
+        setUser(null);
+      }
+      setIsInitializing(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      // Simulation d'une connexion
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const mockUser: User = {
-        id: '1',
-        email,
-        firstName: 'Jean',
-        lastName: 'Dupont',
-        phone: '+33 6 12 34 56 78',
-        createdAt: new Date(),
-        isVerified: true
-      };
-      
-      setUser(mockUser);
+      await signInWithEmailAndPassword(auth, email, password);
       return true;
     } catch (error) {
+      console.error('Erreur de connexion:', error);
       return false;
     } finally {
       setIsLoading(false);
@@ -43,21 +69,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (email: string, password: string, firstName: string, lastName: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      // Simulation d'une inscription
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const firebaseUser = userCredential.user;
+
+      // Mettre à jour le profil Firebase
+      await updateProfile(firebaseUser, {
+        displayName: `${firstName} ${lastName}`
+      });
       
-      const mockUser: User = {
-        id: '1',
-        email,
+      // Sauvegarder les données utilisateur dans Firestore
+      await setDoc(doc(db, 'users', firebaseUser.uid), {
         firstName,
         lastName,
+        email,
+        phone: '',
         createdAt: new Date(),
         isVerified: false
-      };
-      
-      setUser(mockUser);
+      });
+
       return true;
     } catch (error) {
+      console.error('Erreur d\'inscription:', error);
       return false;
     } finally {
       setIsLoading(false);
@@ -65,7 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    setUser(null);
+    signOut(auth);
+    // L'état sera mis à jour automatiquement par onAuthStateChanged
   };
 
   return (
@@ -74,7 +107,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login,
       register,
       logout,
-      isLoading
+      isLoading,
+      isInitializing
     }}>
       {children}
     </AuthContext.Provider>

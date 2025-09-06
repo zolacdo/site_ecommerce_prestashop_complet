@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Search, ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useCart } from '../hooks/useCart';
-import { useAuth } from '../hooks/useAuth';
-import { useWishlist } from '../hooks/useWishlist';
+import React, { useState } from "react";
+import { Search, ShoppingCart, Menu, X, User, Heart } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
+import { useAuth } from "../hooks/useAuth";
+import { useWishlist } from "../hooks/useWishlist";
 import logo from "../../assets/logo.png";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  // const [searchQuery, setSearchQuery] = useState('');
   const { getTotalItems } = useCart();
   const { user } = useAuth();
   const { items: wishlistItems } = useWishlist();
@@ -20,12 +20,12 @@ const Header: React.FC = () => {
   const totalWishlistItems = wishlistItems.length;
 
   const navigation = [
-    { name: 'Accueil', path: '/' },
-    { name: 'Formations', path: '/products?category=formation' },
-    { name: 'Modules', path: '/products?category=module' },
-    { name: 'Thèmes', path: '/products?category=theme' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'À Propos', path: '/about' },
+    { name: "Accueil", path: "/" },
+    { name: "Formations", path: "/products", category: "formation" },
+    { name: "Modules", path: "/products", category: "module" },
+    { name: "Thèmes", path: "/products", category: "theme" },
+    { name: "Blog", path: "/blog" },
+    { name: "À Propos", path: "/about" },
     // { name: 'Support', path: '/support' }
   ];
 
@@ -60,19 +60,35 @@ const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`font-medium transition-colors ${
-                  location.pathname === item.path
-                    ? 'text-blue-900 border-b-2 border-blue-900 pb-1'
-                    : 'text-gray-700 hover:text-blue-900'
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              let active = false;
+              if (item.category) {
+                active =
+                  location.pathname === item.path &&
+                  new URLSearchParams(location.search).get("category") ===
+                    item.category;
+              } else {
+                active = location.pathname === item.path;
+              }
+
+              return (
+                <Link
+                  key={item.path + (item.category || "")}
+                  to={
+                    item.category
+                      ? `${item.path}?category=${item.category}`
+                      : item.path
+                  }
+                  className={`font-medium transition-colors ${
+                    active
+                      ? "text-blue-900 border-b-2 border-blue-900 pb-1"
+                      : "text-gray-700 hover:text-blue-900"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right side actions */}
@@ -100,7 +116,7 @@ const Header: React.FC = () => {
 
             {/* Account */}
             <button
-              onClick={() => navigate(user ? '/account' : '/login')}
+              onClick={() => navigate(user ? "/account" : "/login")}
               className="relative p-2 text-gray-700 hover:text-blue-900 transition-colors"
             >
               <User className="h-6 w-6" />
@@ -111,7 +127,7 @@ const Header: React.FC = () => {
 
             {/* Cart */}
             <button
-              onClick={() => navigate('/checkout')}
+              onClick={() => navigate("/checkout")}
               className="relative p-2 text-gray-700 hover:text-blue-900 transition-colors"
             >
               <ShoppingCart className="h-6 w-6" />
@@ -127,7 +143,11 @@ const Header: React.FC = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 text-gray-700 hover:text-blue-900 transition-colors"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -143,8 +163,8 @@ const Header: React.FC = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`block w-full text-left px-4 py-2 rounded-lg transition-colors ${
                     location.pathname === item.path
-                      ? 'bg-blue-100 text-blue-900 font-medium'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? "bg-blue-100 text-blue-900 font-medium"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   {item.name}

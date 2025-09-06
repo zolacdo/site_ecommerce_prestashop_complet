@@ -43,7 +43,7 @@ const Home: React.FC = () => {
 
           <div className="text-center">
             <button
-              onClick={() => navigate('/products?category=formation')}
+              onClick={() => navigate('/products')}
               className="bg-blue-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors inline-flex items-center space-x-2"
             >
               <span>Voir Tous les Produits</span>

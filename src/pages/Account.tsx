@@ -395,7 +395,7 @@ const Account: React.FC= () => {
                         >
                           Gérer les Cartes
                         </button>
-                      </div>
+                      </div>  
                       <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
                         <Settings className="h-8 w-8 text-green-600 mb-4" />
                         <h3 className="font-semibold text-gray-900 mb-2">Paramètres de Paiement</h3>

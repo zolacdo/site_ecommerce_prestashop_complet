@@ -19,7 +19,7 @@ const AdminLogin: React.FC= () => {
 
     const success = await loginAdmin(email, password);
     if (success) {
-      navigate('/admin');
+      navigate('/admin/dashboard');
     } else {
       setError('Identifiants incorrects');
     }
@@ -50,8 +50,8 @@ const AdminLogin: React.FC= () => {
           <div className="bg-blue-50 rounded-lg p-4 mb-6">
             <h3 className="font-semibold text-blue-900 mb-2">Comptes de démonstration :</h3>
             <div className="text-sm space-y-1">
-              <p><strong>Admin Principal :</strong> admin@prestashop-academy.fr / admin123</p>
-              <p><strong>Manager :</strong> manager@prestashop-academy.fr / manager123</p>
+              <p><strong>Pour tester :</strong> Créez d'abord un compte admin dans Firebase</p>
+              <p><strong>Collection :</strong> 'admins' avec les champs firstName, lastName, role, permissions</p>
             </div>
           </div>
 
